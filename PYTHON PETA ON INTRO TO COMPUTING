@@ -1,0 +1,95 @@
+totalprice = 0
+grandprice = 0
+change = 0
+payment = 0
+invalid_input = 0
+item_prices = []
+print("Welcome to the sari-sari store program. Please enter the price of each item. 5% discount is applied when total exceed 200 pesos. Enter 0 to terminate the program or to calculate the total price.")
+print("----------------------------------------------------")
+while True:
+    try:
+        item = float(input("Enter item price (Enter 0 to terminate): "))
+    except ValueError:
+        invalid_input += 1
+        print("Please enter a valid number, try again.")
+        if invalid_input >= 3:
+            print("Too many invalid inputs. Exiting the program.")
+            break
+        continue
+    if item == 0:
+        if grandprice > 200:
+            grandprice *= 0.95
+            print(f"Final price: {grandprice:.2f} (5% discount applied)")
+        else:
+            print(f"Final price: {grandprice:.2f}")
+        try:
+            payment = float(input("Enter amount of payment: "))
+        except ValueError:
+            print("Please enter a valid number for payment.")
+            continue
+        if payment < grandprice:
+            amount_due = grandprice - payment
+            print(f"Not enough payment. Amount due: {amount_due:.2f}")
+            try:
+                remaining_payment = float(input("Enter remaining payment: "))
+            except ValueError:
+                print("Please enter a valid payment amount.")
+                continue
+            if remaining_payment >= amount_due:
+                change = remaining_payment - amount_due
+                if change > 0:
+                    print(f"Successfully paid remaining balance, change: {change:.2f}")
+                else:
+                    print("Successfully paid remaining balance.")
+                print("\n----- RECEIPT -----")
+                print("Items:")
+                for price in item_prices:
+                    print(f"  {price:.2f}")
+                print(f"Total: {grandprice:.2f}")
+                print(f"Amount paid: {payment + remaining_payment:.2f}")
+                print(f"Change: {change:.2f}")
+                print("-------------------")
+            else:
+                print("Payment was not enough to cover the remaining balance.")
+        else:
+            change = payment - grandprice
+            print(f"Change: {change:.2f}")
+            print("\n----- RECEIPT -----")
+            print("Items:")
+            for price in item_prices:
+                print(f"  {price:.2f}")
+            print(f"Total: {grandprice:.2f}")
+            print(f"Amount paid: {payment:.2f}")
+            print(f"Change: {change:.2f}")
+            print("-------------------")
+        while True:
+            choice = input("Would you like to continue? (yes/no): ").strip().lower()
+            if choice in ("yes", "y"):
+                totalprice = 0
+                grandprice = 0
+                change = 0
+                payment = 0
+                invalid_input = 0
+                item_prices = []
+                break
+            elif choice in ("no", "n"):
+                print("Thank you for using our sari-sari program!")
+                print("-----------------------------------------------")
+                print("MA'AM ALEXSANDRA F. MARIN BEST PROF NG NU MANILA")
+                print("First Year, BSIT-MWA, INF 263")
+                print("group lawrence and friends")
+                raise SystemExit
+            else:
+                print("Invalid input. Please enter 'yes' or 'no'.")
+                invalid_input += 1
+    elif item > 0:
+        totalprice += item
+        item_prices.append(item)
+        grandprice = totalprice
+        print(f"Total: {grandprice:.2f}")
+    else:
+        print("Invalid number, please try again.")
+        invalid_input += 1  
+
+#Time spent: 5 hours and 39 minutes
+#coffee_counter: 7
